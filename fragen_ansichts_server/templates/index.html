@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DLRG Fragen Filter</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="checkbox"], button {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question strong {
+            color: #007bff;
+        }
+
+        .question ul {
+            padding-left: 20px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .row label {
+            flex: 1 1 auto;
+            margin-right: 10px;
+        }
+
+        .options {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .options label {
+            margin-right: 15px;
+        }
+
+        .highlighted {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>DLRG Fragen Filter</h1>
+        <form action="/" method="POST">
+            <div class="row">
+                <label for="file">Datei wählen:</label>
+                <select name="file" id="file">
+                    <option value="Alle" {% if selected_file == 'Alle' %} selected {% endif %}>Alle</option>
+                    {% for file in unique_files %}
+                    <option value="{{ file }}" {% if file == selected_file %} selected {% endif %}>{{ file }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="row">
+                <label for="chapter">Kapitel wählen:</label>
+                <select name="chapter" id="chapter">
+                    <option value="" {% if selected_chapter == '' %} selected {% endif %}>Alle</option>
+                    {% for chapter in unique_chapters %}
+                    {% if chapter in file_chapters %}
+                    <option value="{{ chapter }}" {% if chapter == selected_chapter %} selected {% endif %} class="highlighted">{{ chapter }}</option>
+                    {% else %}
+                    <option value="{{ chapter }}" {% if chapter == selected_chapter %} selected {% endif %}>{{ chapter }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="row options">
+                <label>Anzeige Optionen:</label>
+                <input type="checkbox" name="show_question" id="show_question" value="true" {% if show_question %} checked {% endif %}><label for="show_question">Frage anzeigen</label>
+                <input type="checkbox" name="show_answer" id="show_answer" value="true" {% if show_answer %} checked {% endif %}><label for="show_answer">Antwort anzeigen</label>
+                <input type="checkbox" name="show_category" id="show_category" value="true" {% if show_category %} checked {% endif %}><label for="show_category">Kapitel anzeigen</label>
+            </div>
+            <button type="submit">Filter anwenden</button>
+        </form>
+
+        {% if filtered_questions %}
+        <h2>Gefilterte Fragen</h2>
+        <ul>
+            {% for question in filtered_questions %}
+            <li class="question">
+            {% if show_question %}
+            <strong>Frage:</strong> {{ question['frage'] }}<br>
+            {% endif %}
+            {% if show_answer %}
+            <strong>Antworten:</strong>
+            <ul>
+                {% for answer in question['antworten'] %}
+                {% if answer %}
+                <li>{{ answer }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if show_category %}
+            <strong>Kapitel:</strong> {{ question['kapitel'] }} - {{ question['kapitelBez'] }} (FragenID: {{ question['id'] }})
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+</body>
+
+</html>
