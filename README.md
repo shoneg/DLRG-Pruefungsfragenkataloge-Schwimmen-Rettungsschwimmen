@@ -6,7 +6,7 @@ Dieses Projekt besteht aus zwei Teilen. Einem [Crawler](#fragen-crawler), der al
 
 Das Repository kann mit über die GitHub-Oberfläche oder den Befehle `git clone https://github.com/shoneg/DLRG-Pruefungsfragenkataloge-Schwimmen-Rettungsschwimmen.git` heruntergeladen werden.
 
-Zur Ausführung der Skripte muss python3 installiert sein. Außerdem sind die Module `argparser`, `requests`, `regex` und `Flask` erforderlich. Diese Module können wie folgt installiert werden:
+Zur Ausführung der Skripte muss python3 installiert sein. Hier gibt es ein Tutorial zur Python-Installation: [https://realpython.com/installing-python/](https://realpython.com/installing-python/). Außerdem sind die Module `argparser`, `requests`, `regex` und `Flask` erforderlich. Diese Module können wie folgt installiert werden:
 
 ```bash
 pip install argparse
