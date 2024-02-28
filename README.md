@@ -76,3 +76,5 @@ Mit der Option `--port` kann der Port geändert werden. Mit der Option `--fragen
 - Teile des Quellcodes wurden mit ChatGPT generiert.
 
 - Es gelten die Nutzungsbedingungen von [www.dlrg.de](https://www.dlrg.de).
+
+- Bei allen Fragen ist immer die erste Antwort die richtige (Stand Januar 2024)
